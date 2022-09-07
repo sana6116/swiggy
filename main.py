@@ -1,107 +1,48 @@
-import itertools
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 import pandas as pd
+  
 
+element_list = []
 df = pd.read_csv('input.csv')
 cty = df.get("city")
 cities = cty.tolist()
-
-def detail(driver,city):
-    names = driver.find_elements(
-        By.CLASS_NAME, 'nA6kb'
-    )
-
-    restaurants = [
-        rest.find_element(
-        By.XPATH, './../..'
-    )for rest in names
-    ]
-        
-    data = []
-
-    for restaurant in restaurants:
-        try:
-            name = restaurant.find_element(
-                By.XPATH, './div[2]/div[1]'
-            )
-            rate = restaurant.find_element(
-                By.XPATH, './div[3]/div[1]'
-            )
-            ftype = restaurant.find_element(
-                By.XPATH, './div/div[2]'
-            )
-            price_range =restaurant.find_element(
-                By.XPATH,'./div[3]/div[5]'
-            )
-        except:
-            continue
-
-        data.append({
-            "Name" : name.text,
-            "Rating" : rate.text,
-            "Food Type": ftype.text,
-            "Price_range" : price_range.text, 
-            "area" : city
-            })
-    return data
-
-
-def product_page_1(driver,city):
-        
-    driver.get(f"https://www.swiggy.com/city/{city}?page=1")
-     
-    return detail(driver,city)
-
-def product_page_2(driver,city):
-        
-    driver.get(f"https://www.swiggy.com/city/{city}?page=2")
-     
-    return detail(driver,city)
-
-def product_page_3(driver,city):
-        
-    driver.get(f"https://www.swiggy.com/city/{city}?page=3")
-     
-    return detail(driver,city)
-
-def product_page_4(driver,city):
-        
-    driver.get(f"https://www.swiggy.com/city/{city}?page=4")
-    
-    return detail(driver,city)
-
-def product_page_5(driver,city):
-        
-    driver.get(f"https://www.swiggy.com/city/{city}?page=5")
-    
-    return detail(driver,city)
-
-
-webdriver = webdriver.Chrome(ChromeDriverManager().install())
-df1 = pd.DataFrame(
-    list(itertools.chain(*[product_page_1(webdriver,city)for city in cities]))
-)
-df2 = pd.DataFrame(
-    list(itertools.chain(*[product_page_2(webdriver,city)for city in cities]))
-)
-df3 = pd.DataFrame(
-    list(itertools.chain(*[product_page_3(webdriver,city)for city in cities]))
-)
-df4 = pd.DataFrame(
-    list(itertools.chain(*[product_page_4(webdriver,city)for city in cities]))
-)
-df5 = pd.DataFrame(
-    list(itertools.chain(*[product_page_5(webdriver,city)for city in cities]))
-)
-
-final_df = [df1,df2,df3,df4,df5]
-#print(final_df)
-df = pd.concat(final_df, ignore_index=True)
-df.sort_values(["area"],axis=0, ascending=True,inplace=True,na_position='first')
+for page in range(1, 6, 1):
+    for city in cities:
+        page_url = f"https://www.swiggy.com/city/{city}?page=" + str(page)
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        driver.get(page_url)
+        names = driver.find_elements(
+            By.CLASS_NAME, 'nA6kb'
+        )
+        rate = driver.find_elements(
+            By.XPATH, "//span[@class='icon-star _537e4']/following-sibling::span"
+        )
+        ftype = driver.find_elements(
+           By.CLASS_NAME, "_1gURR"
+        )
+        price_range = driver.find_elements(
+            By.CLASS_NAME, "nVWSi"
+        )
+        link = driver.find_elements(
+            By.CLASS_NAME, "_1j_Yo"
+        )
+        for i in range(len(names)):
+            element_list.append({
+                "Name" : names[i].text, 
+                "Rate" : rate[i].text, 
+                "Food Type" : ftype[i].text, 
+                "Price Range" :price_range[i].text,
+                "City" : city,
+                "URL" : link[i].get_attribute("href")
+                })
+df = pd.DataFrame(element_list)
+df.sort_values(["City"],axis=0, ascending=True,inplace=True,na_position='first')
 df.to_csv("restaurants.csv", index=False)
-webdriver.quit()  
 
- 
+
+  
+driver.close()
+
+    

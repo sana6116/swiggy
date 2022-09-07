@@ -1,4 +1,4 @@
-# Scraping of Zomato data
+# Scraping of Swiggy data
 
 ### What is it?
 It is desgined to scape from food delivery Website/Application
