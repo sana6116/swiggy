@@ -1,25 +1,39 @@
-# Scraping of Swiggy data
+# Scraping famous cities dines from Swiggy
 
-### What is it?
-It is desgined to scape from food delivery Website/Application
+## Table of content
+1. Introduction
+2. Details
+3. Modules
+4. Helps
 
-### Main Features:
+## Introduction
+Swiggy is food delivery website/Application which helps to order food and even check the available diners in your city. In this project we automate through different cities on swiggy and create a dataframe with columns as the name of the diner, there ratings, Price range they provide, type of food they serve.
 
-1. It recevies data as the list of the cities saved into a csv file 
+## Details
+-> data of city names are taken from a csv file named as input.csv where names of the cities has been saved .
 
-2. It scrapes every city's mentioned in the csv file restaurants **Name**, **Rating**, **Price Range**, **Type of food they serve** .
+-> Scaping of diners **Name**, **Rating**, **Price Range**, **Food type** from the food deliver application/website with the help of selenium.
 
-3. the scraped data is again saved to another csv file 
+-> Scraped data is again saved to another csv file. 
 
-### Dependencies
+## Modules
 
-1. **selenium** : Selenium is one of the most renowned open-source test automation frameworks. Selenium allows test automation of web-apps or websites across different browsers & operating systems.
+### Selenium
+Selenium is a free (open-source) automated testing framework used to validate web applications across different browsers and platforms. You can use multiple programming languages like Java, C#, Python, etc to create Selenium Test Scripts
 
-2. **Selenium/Webdriver** : Selenium WebDriver allows you to directly interact with the browsers through your automation test scripts.
+### selenium webdriver
+Selenium WebDriver is a web framework that permits you to execute cross-browser tests. This tool is used for automating web-based application testing to verify that it performs expectedly.
 
-3. **Time** : The Python time module provides many ways of representing time in code, such as objects, numbers, and strings. It also provides functionality other than representing time, like waiting during code execution and measuring the efficiency of your code.
+### Selenium webdriver_manager
+Selenium supports various browsers like Firefox, Chrome, Safari, Opera, and Internet Explorer. To use the Selenium framework for automated testing, two things are required – the Selenium FrameWork and a suitable driver for your chosen browser.
 
-4. **Pandas** : Pandas is an open source Python package that is most widely used for data science/data analysis and machine learning tasks
+### Pandas
+pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
+built on top of the Python programming language.
 
-### Getting help
-for questions use **Stack OverFlow** or **geeksforgeeks**
+# Helps
+1. Stack OverFlow
+2. mentatgeeksforgeeks
+3. Python Documentation
+4. Browser Stack
+5. pandas.pydata.org
